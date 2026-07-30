@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { color, font } from "../theme";
 import { BottomNav, type Tab } from "../components/BottomNav";
 import { Path } from "./main/Path";
@@ -11,6 +11,9 @@ import type { Gates } from "../types";
 export function MainScreen({
   firstName,
   gates,
+  tab,
+  onTabChange,
+  isDesktop,
   onOpenExposure,
   onOpenNotifs,
   onOpenProfile,
@@ -18,12 +21,27 @@ export function MainScreen({
 }: {
   firstName: string;
   gates: Gates;
+  tab: Tab;
+  onTabChange: (t: Tab) => void;
+  isDesktop: boolean;
   onOpenExposure: () => void;
   onOpenNotifs: () => void;
   onOpenProfile: () => void;
   onRefreshGates: () => void;
 }) {
-  const [tab, setTab] = useState<Tab>("path");
+  const content = (
+    <>
+      {tab === "path" && <Path firstName={firstName} gates={gates} onOpenExposure={onOpenExposure} onOpenTab={onTabChange} />}
+      {tab === "journal" && <Journal gates={gates} onChanged={onRefreshGates} />}
+      {tab === "actions" && <Actions gates={gates} onChanged={onRefreshGates} />}
+      {tab === "data" && <Data gates={gates} />}
+      {tab === "circle" && <Circle gates={gates} />}
+    </>
+  );
+
+  // On desktop the Sidebar (rendered by App) owns navigation, notifications
+  // and profile access, so MainScreen only needs to render the active tab.
+  if (isDesktop) return content;
 
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}>
@@ -44,16 +62,10 @@ export function MainScreen({
       </div>
 
       <div className="hidebar" style={{ flex: 1, overflowY: "auto", minHeight: 0 }}>
-        {tab === "path" && (
-          <Path firstName={firstName} gates={gates} onOpenExposure={onOpenExposure} onOpenTab={setTab} />
-        )}
-        {tab === "journal" && <Journal gates={gates} onChanged={onRefreshGates} />}
-        {tab === "actions" && <Actions gates={gates} onChanged={onRefreshGates} />}
-        {tab === "data" && <Data gates={gates} />}
-        {tab === "circle" && <Circle gates={gates} />}
+        {content}
       </div>
 
-      <BottomNav tab={tab} onChange={setTab} gates={gates} />
+      <BottomNav tab={tab} onChange={onTabChange} gates={gates} />
     </div>
   );
 }

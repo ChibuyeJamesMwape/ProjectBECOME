@@ -14,7 +14,7 @@ const PERSONAS: { key: string; label: string }[] = [
 // formation cycle so gated stages can be reviewed without waiting real days.
 // The backend 404s this route unless ENABLE_DEV_TOOLS=true, and Vite strips
 // this component from production builds (import.meta.env.DEV).
-export function DevRig({ onChanged }: { onChanged: () => void }) {
+export function DevRig({ onChanged, onDark }: { onChanged: () => void; onDark?: boolean }) {
   const [busy, setBusy] = useState<string | null>(null);
   const [err, setErr] = useState("");
 
@@ -31,26 +31,31 @@ export function DevRig({ onChanged }: { onChanged: () => void }) {
     }
   }
 
+  const labelColor = color.faint;
+  const buttonColor = onDark ? color.dim : "#5c564a";
+  const buttonBorder = onDark ? "rgba(245,241,232,0.16)" : "rgba(15,14,12,0.25)";
+  const noteColor = onDark ? color.faint : "#8a8375";
+
   return (
-    <div style={{ width: 390, maxWidth: "100%" }}>
-      <div style={{ fontFamily: font.mono, fontSize: 10, letterSpacing: 2, color: color.faint, marginBottom: 8, textAlign: "center" }}>
-        DEV · FAST-FORWARD THIS TEST ACCOUNT
+    <div style={{ width: "100%" }}>
+      <div style={{ fontFamily: font.mono, fontSize: 10, letterSpacing: 2, color: labelColor, marginBottom: 8, textAlign: onDark ? "left" : "center" }}>
+        DEV · FAST-FORWARD
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: onDark ? "flex-start" : "center" }}>
         {PERSONAS.map((p) => (
           <button
             key={p.key}
             onClick={() => pick(p.key)}
             disabled={busy !== null}
             style={{
-              minHeight: 40,
-              padding: "8px 16px",
+              minHeight: 34,
+              padding: "6px 12px",
               borderRadius: 999,
-              border: "1px solid rgba(15,14,12,0.25)",
+              border: `1px solid ${buttonBorder}`,
               background: "transparent",
-              color: "#5c564a",
+              color: buttonColor,
               fontFamily: font.mono,
-              fontSize: 11,
+              fontSize: 10.5,
               cursor: busy ? "default" : "pointer",
               opacity: busy && busy !== p.key ? 0.5 : 1,
             }}
@@ -59,10 +64,9 @@ export function DevRig({ onChanged }: { onChanged: () => void }) {
           </button>
         ))}
       </div>
-      {err && <p style={{ fontSize: 11, color: color.goldHover, textAlign: "center", marginTop: 10 }}>{err}</p>}
-      <p style={{ fontSize: 11, lineHeight: 1.6, color: "#8a8375", textAlign: "center", margin: "12px 20px 0" }}>
-        Rewrites this account's exposure audit, journal, and action history to match the chosen moment in the journey.
-        Never enable ENABLE_DEV_TOOLS in production.
+      {err && <p style={{ fontSize: 11, color: color.goldHover, textAlign: onDark ? "left" : "center", marginTop: 10 }}>{err}</p>}
+      <p style={{ fontSize: 10.5, lineHeight: 1.6, color: noteColor, textAlign: onDark ? "left" : "center", margin: onDark ? "10px 0 0" : "12px 20px 0" }}>
+        Rewrites this account's history. Never enable in production.
       </p>
     </div>
   );
