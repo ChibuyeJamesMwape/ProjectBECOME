@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// A user's baseline identity record, captured once during the onboarding
+// Identity Audit. Required before the main app unlocks.
+model Profile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  role        String
+  city        String
+  org         String
+  years       String
+  sys         String[] // "the system" side of the worksheet, 3 rows
+  des         String[] // "your design" side of the worksheet, 3 rows
+  constraints String[]
+  commitment  String
+  createdAt   DateTime @default(now())
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  // Stage 5 (Replication): the code a user hands out, and who used it to join.
+  referralCode String @unique
+  referredById String?
+  referredBy   User?  @relation("Referrals", fields: [referredById], references: [id])
+  referrals    User[] @relation("Referrals")
+
+  profile               Profile?
+  exposureAudit         ExposureAudit?
+  journalEntries        JournalEntry[]
+  habits                Habit[]
+  habitChecks           HabitCheck[]
+  notificationSettings  NotificationSettings?
+}
+
+// Stage 1 (Exposure): the paradigm audit. Gates Stage 2 once text length
+// exceeds the configured threshold.
+model ExposureAudit {
+  id           String    @id @default(uuid())
+  userId       String    @unique
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text         String    @default("")
+  registeredAt DateTime?
+  updatedAt    DateTime  @updatedAt
+}
+
+// Stage 2 (Internalization): one entry per calendar day.
+model JournalEntry {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String // YYYY-MM-DD, user-local calendar day
+  tags      String[]
+  text      String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, date])
+}
+
+// Stage 3 (Reinforcement): the set of daily aligned actions a user tracks.
+model Habit {
+  id        String       @id @default(uuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  archived  Boolean      @default(false)
+  createdAt DateTime     @default(now())
+  checks    HabitCheck[]
+}
+
+model HabitCheck {
+  id      String @id @default(uuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  habitId String
+  habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  date    String // YYYY-MM-DD
+
+  @@unique([habitId, date])
+}
+
+model NotificationSettings {
+  id      String  @id @default(uuid())
+  userId  String  @unique
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  journal Boolean @default(true)
+  actions Boolean @default(true)
+  review  Boolean @default(false)
+}

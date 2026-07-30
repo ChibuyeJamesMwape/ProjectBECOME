@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Poppins:wght@300;400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F1E8;font-family:Poppins,sans-serif}
+*{box-sizing:border-box}
+a{color:#C3862B}a:hover{color:#A06C1F}
+::selection{background:rgba(195,134,43,.35)}
+input::placeholder,textarea::placeholder{color:#6E675A;opacity:1}
+:focus-visible{outline:2px solid #C3862B;outline-offset:2px}
+.hidebar::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+<template id="__bundler_thumbnail" data-bg-color="#0F0E0C">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#0F0E0C"></rect><text x="100" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="64" fill="#F5F1E8">b<tspan fill="#C3862B">.</tspan></text><g fill="#C3862B"><rect x="55" y="140" width="14" height="4" rx="2" opacity="0.3"></rect><rect x="73" y="140" width="14" height="4" rx="2" opacity="0.45"></rect><rect x="91" y="140" width="14" height="4" rx="2" opacity="0.6"></rect><rect x="109" y="140" width="14" height="4" rx="2" opacity="0.8"></rect><rect x="127" y="140" width="14" height="4" rx="2"></rect></g></svg>
+</template>
+<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:28px 16px">
+<div style="width:390px;max-width:100%;height:800px;background:#0F0E0C;border-radius:44px;border:1px solid rgba(195,134,43,0.28);box-shadow:0 30px 70px rgba(15,14,12,0.35);overflow:hidden;display:flex;flex-direction:column;position:relative;color:#F5F1E8">
+
+  <sc-if value="{{ scrWelcome }}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="Welcome" style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:36px 30px 44px;background:radial-gradient(120% 70% at 20% 0%,#1C180D 0%,#0F0E0C 62%)">
+    <div style="display:flex;gap:6px;margin-bottom:auto;padding-top:26px">
+      <div style="width:26px;height:5px;background:rgba(195,134,43,0.25);border-radius:2px"></div>
+      <div style="width:26px;height:5px;background:rgba(195,134,43,0.4);border-radius:2px"></div>
+      <div style="width:26px;height:5px;background:rgba(195,134,43,0.55);border-radius:2px"></div>
+      <div style="width:26px;height:5px;background:rgba(195,134,43,0.75);border-radius:2px"></div>
+      <div style="width:26px;height:5px;background:#C3862B;border-radius:2px"></div>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;color:#C3862B;margin-bottom:16px">PROJECT BECOME</div>
+    <h1 style="font-family:'Playfair Display',serif;font-weight:600;font-size:36px;line-height:1.15;margin:0 0 18px">We do not develop leaders. <em style="color:#C3862B">We form them.</em></h1>
+    <p style="font-size:14px;line-height:1.7;color:#B9B2A4;margin:0 0 30px">This is the formation cycle for professionals who are done performing a life that was installed for them. Before anything opens, you will sit the Identity Audit. Write honestly. The system reads what you write, not what you meant.</p>
+    <button onClick="{{ begin }}" style="height:56px;border:none;border-radius:999px;background:#C3862B;color:#0F0E0C;font-family:Poppins,sans-serif;font-weight:600;font-size:15px;cursor:pointer" style-hover="background:#D2953A">Begin the audit</button>
+    <div style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:2px;color:#6E675A;text-align:center;margin-top:18px">FIVE GATES · NO SKIP BUTTON</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ scrAudit }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Identity Audit" style="flex:1;display:flex;flex-direction:column;min-height:0">
+    <div style="padding:26px 26px 14px;display:flex;align-items:center;justify-content:space-between">
+      <button onClick="{{ auditBack }}" aria-label="Back" style="width:44px;height:44px;margin-left:-12px;border:none;background:none;color:#B9B2A4;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="color:#F5F1E8"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:#C3862B">{{ stepLabel }}</div>
+      <div style="width:32px"></div>
+    </div>
+    <div style="display:flex;gap:5px;padding:0 26px 20px">
+      <div style="flex:1;height:4px;border-radius:2px;background:{{ stepBar1 }}"></div>
+      <div style="flex:1;height:4px;border-radius:2px;background:{{ stepBar2 }}"></div>
+      <div style="flex:1;height:4px;border-radius:2px;background:{{ stepBar3 }}"></div>
+    </div>
+    <div class="hidebar" style="flex:1;overflow-y:auto;padding:0 26px 26px">
+
+      <sc-if value="{{ step0 }}" hint-placeholder-val="{{ true }}">
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:27px;line-height:1.2;margin:0 0 8px">Your baseline, on the record.</h2>
+      <p style="font-size:13px;line-height:1.65;color:#B9B2A4;margin:0 0 22px">Not a bio. A starting position. Everything you build here will be measured against this page.</p>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div><div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:7px">FULL NAME</div>
+        <input value="{{ dName }}" onChange="{{ onName }}" placeholder="As it should be spoken" style="width:100%;height:50px;padding:0 16px;background:#17130C;border:1px solid rgba(245,241,232,0.1);border-radius:14px;color:#F5F1E8;font-family:Poppins,sans-serif;font-size:14px"></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:7px">CURRENT ROLE</div>
+        <input value="{{ dRole }}" onChange="{{ onRole }}" placeholder="The title you hold today" style="width:100%;height:50px;padding:0 16px;background:#17130C;border:1px solid rgba(245,241,232,0.1);border-radius:14px;color:#F5F1E8;font-family:Poppins,sans-serif;font-size:14px"></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:7px">CITY AND COUNTRY</div>
+        <input value="{{ dCity }}" onChange="{{ onCity }}" placeholder="Where the work happens" style="width:100%;height:50px;padding:0 16px;background:#17130C;border:1px solid rgba(245,241,232,0.1);border-radius:14px;color:#F5F1E8;font-family:Poppins,sans-serif;font-size:14px"></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:7px">THE STRUCTURE THAT EMPLOYS YOU</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ orgChips }}" as="c" hint-placeholder-count="5">
+            <button onClick="{{ c.fn }}" style="min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font-family:Poppins,sans-serif;font-size:13px;cursor:pointer">{{ c.label }}</button>
+          </sc-for>
+        </div></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:7px">YEARS INSIDE IT</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ yearChips }}" as="c" hint-placeholder-count="4">
+            <button onClick="{{ c.fn }}" style="min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font-family:Poppins,sans-serif;font-size:13px;cursor:pointer">{{ c.label }}</button>
+          </sc-for>
+        </div></div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ step1 }}" hint-placeholder-val="{{ false }}">
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:27px;line-height:1.2;margin:0 0 8px">The system, and <em style="color:#C3862B">your design.</em></h2>
+      <p style="font-size:13px;line-height:1.65;color:#B9B2A4;margin:0 0 22px">Two columns. On the left, the structure that formed your reflexes. On the right, what it never managed to remove. Fill at least four.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px">
+        <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C">THE SYSTEM</div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#C3862B">YOUR DESIGN</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <sc-for list="{{ sysRows }}" as="r" hint-placeholder-count="3">
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#6E675A;margin-bottom:6px">{{ r.k }}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <textarea value="{{ r.l }}" onChange="{{ r.onL }}" placeholder="{{ r.ph1 }}" style="min-height:84px;padding:12px 13px;background:#17130C;border:1px solid rgba(245,241,232,0.1);border-radius:14px;color:#F5F1E8;font-family:Poppins,sans-serif;font-size:12.5px;line-height:1.5;resize:none"></textarea>
+              <textarea value="{{ r.r }}" onChange="{{ r.onR }}" placeholder="{{ r.ph2 }}" style="min-height:84px;padding:12px 13px;background:#1C180D;border:1px solid rgba(195,134,43,0.3);border-radius:14px;color:#F5F1E8;font-family:Poppins,sans-serif;font-size:12.5px;line-height:1.5;resize:none"></textarea>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:27px;line-height:1.2;margin:0 0 8px">Name the constraints.</h2>
+      <p style="font-size:13px;line-height:1.65;color:#B9B2A4;margin:0 0 22px">These are real. Formation does not pretend they are not there. It builds inside them until they are not the ceiling anymore.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
+        <sc-for list="{{ consChips }}" as="c" hint-placeholder-count="6">
+          <button onClick="{{ c.fn }}" style="min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font-family:Poppins,sans-serif;font-size:13px;cursor:pointer">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:7px">ONE COMMITMENT, IN YOUR OWN WORDS</div>
+      <textarea value="{{ dCommit }}" onChange="{{ onCommit }}" placeholder="Write the sentence you intend to live" style="width:100%;min-height:96px;padding:14px 16px;background:#17130C;border:1px solid rgba(245,241,232,0.1);border-radius:14px;color:#F5F1E8;font-family:'Playfair Display',serif;font-style:italic;font-size:16px;line-height:1.6;resize:none"></textarea>
+      </sc-if>
+
+      <sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:16px;padding:12px 16px;border-radius:14px;background:rgba(195,134,43,0.12);border:1px solid rgba(195,134,43,0.4);color:#D2953A;font-size:12.5px;line-height:1.5">{{ errMsg }}</div>
+      </sc-if>
+
+      <button onClick="{{ auditNext }}" style="width:100%;height:54px;margin-top:22px;border:none;border-radius:999px;background:#C3862B;color:#0F0E0C;font-family:Poppins,sans-serif;font-weight:600;font-size:15px;cursor:pointer" style-hover="background:#D2953A">{{ nextLabel }}</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ scrMain }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;display:flex;flex-direction:column;min-height:0">
+    <div style="height:64px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(245,241,232,0.06)">
+      <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px">become<span style="color:#C3862B">.</span></div>
+      <div style="display:flex;gap:2px">
+        <button onClick="{{ openNotifs }}" aria-label="Notifications" style="width:44px;height:44px;border:none;background:none;color:#B9B2A4;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="color:#F5F1E8"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg></button>
+        <button onClick="{{ openProfile }}" aria-label="Profile" style="width:44px;height:44px;border:none;background:none;color:#B9B2A4;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="color:#F5F1E8"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></button>
+      </div>
+    </div>
+
+    <div class="hidebar" style="flex:1;overflow-y:auto;min-height:0">
+
+      <sc-if value="{{ tabPath }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="Path" style="padding:24px 22px 28px">
+        <div style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:3px;color:#8F887C;margin-bottom:10px">THE FORMATION CYCLE</div>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:28px;line-height:1.2;margin:0 0 6px">{{ firstName }}, you are in <em style="color:#C3862B">{{ curStageName }}.</em></h2>
+        <p style="font-size:13px;line-height:1.6;color:#B9B2A4;margin:0 0 20px">{{ curStageLine }}</p>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ stages }}" as="s" hint-placeholder-count="5">
+            <button onClick="{{ s.open }}" style="text-align:left;background:#17130C;border:{{ s.border }};border-radius:18px;padding:16px 18px;cursor:pointer;color:#F5F1E8;font-family:Poppins,sans-serif;width:100%" style-hover="background:#1C180D">
+              <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px">
+                <span style="font-family:'Space Mono',monospace;font-size:11px;color:#C3862B">{{ s.n }}</span>
+                <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:19px;color:{{ s.nameC }}">{{ s.name }}</span>
+                <span style="margin-left:auto">
+                  <sc-if value="{{ s.done }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C3862B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></sc-if>
+                  <sc-if value="{{ s.locked }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6E675A" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></sc-if>
+                  <sc-if value="{{ s.active }}" hint-placeholder-val="{{ false }}"><span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:#0F0E0C;background:#C3862B;padding:3px 8px;border-radius:999px">NOW</span></sc-if>
+                </span>
+              </div>
+              <div style="font-size:12px;line-height:1.55;color:#8F887C;margin-bottom:10px">{{ s.desc }}</div>
+              <div style="height:5px;border-radius:3px;background:#2A241A;overflow:hidden"><div style="height:100%;border-radius:3px;background:#C3862B;width:{{ s.p }}"></div></div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:#8F887C;margin-top:7px">{{ s.m }}</div>
+            </button>
+          </sc-for>
+        </div>
+        <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;line-height:1.8;color:#6E675A;margin:20px 4px 0">GATES ARE COMPUTED FROM YOUR DATA. THERE IS NO MARK-AS-COMPLETE.</p>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ tabJournal }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Internalization" style="padding:24px 22px 28px">
+        <div style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:3px;color:#C3862B;margin-bottom:10px">02 · INTERNALIZATION</div>
+        <sc-if value="{{ lockJournal }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#17130C;border:1px solid rgba(245,241,232,0.08);border-radius:18px;padding:26px 22px;text-align:center;margin-top:8px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6E675A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <h3 style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;margin:12px 0 8px">Sealed until the audit lands.</h3>
+            <p style="font-size:13px;line-height:1.65;color:#B9B2A4;margin:0 0 18px">Internalization opens when your Exposure audit passes three hundred characters of honest writing. The gate reads the record, not your intentions.</p>
+            <div style="height:5px;border-radius:3px;background:#2A241A;overflow:hidden"><div style="height:100%;background:#C3862B;width:{{ expoPct }}"></div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:#8F887C;margin-top:8px">{{ expoCount }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ openJournal }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:4px">
+            <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1">{{ jCur }}</span>
+            <span style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:2px;color:#8F887C">DAY STREAK</span>
+          </div>
+          <div style="display:flex;gap:7px;margin:12px 0 22px">
+            <sc-for list="{{ dots7 }}" as="d" hint-placeholder-count="7">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:5px">
+                <div style="width:30px;height:30px;border-radius:999px;background:{{ d.bg }};border:1px solid {{ d.bd }};display:flex;align-items:center;justify-content:center">
+                  <sc-if value="{{ d.on }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0F0E0C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></sc-if>
+                </div>
+                <div style="font-family:'Space Mono',monospace;font-size:9px;color:#6E675A">{{ d.l }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ todayLogged }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#1C180D;border:1px solid rgba(195,134,43,0.35);border-radius:18px;padding:18px 20px;margin-bottom:20px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C3862B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg><span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#C3862B">TODAY IS ON THE RECORD</span></div>
+              <div style="font-size:12px;color:#8F887C;margin-bottom:6px">{{ todayTags }}</div>
+              <div style="font-size:13.5px;line-height:1.6;color:#F5F1E8">{{ todayText }}</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ todayOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:8px">TAG THE SHIFT THIS ENTRY BELONGS TO</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+              <sc-for list="{{ tagChips }}" as="t" hint-placeholder-count="4">
+                <button onClick="{{ t.fn }}" style="min-height:40px;padding:8px 14px;border-radius:999px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font-family:Poppins,sans-serif;font-size:12px;cursor:pointer">{{ t.label }}</button>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:14px">
+              <input value="{{ jCustomIn }}" onChange="{{ onCustomIn }}" placeholder="Name your own shift" style="flex:1;height:44px;padding:0 14px;background:#17130C;border:1px solid rgba(245,241,232,0.1);border-radius:999px;color:#F5F1E8;font-family:Poppins,sans-serif;font-size:12.5px">
+              <button onClick="{{ addCustomTag }}" style="height:44px;padding:0 18px;border-radius:999px;border:1px solid rgba(195,134,43,0.5);background:none;color:#C3862B;font-family:Poppins,sans-serif;font-size:12.5px;cursor:pointer" style-hover="background:rgba(195,134,43,0.12)">Add</button>
+            </div>
+            <textarea value="{{ jText }}" onChange="{{ onJText }}" placeholder="What did the new identity do today that the old one would not have done?" style="width:100%;min-height:130px;padding:14px 16px;background:#17130C;border:1px solid rgba(245,241,232,0.1);border-radius:16px;color:#F5F1E8;font-family:Poppins,sans-serif;font-size:13.5px;line-height:1.6;resize:none"></textarea>
+            <sc-if value="{{ hasJErr }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;color:#D2953A;font-size:12px">{{ jErr }}</div></sc-if>
+            <button onClick="{{ saveEntry }}" style="width:100%;height:52px;margin-top:14px;border:none;border-radius:999px;background:#C3862B;color:#0F0E0C;font-family:Poppins,sans-serif;font-weight:600;font-size:14.5px;cursor:pointer" style-hover="background:#D2953A">Log the day</button>
+          </sc-if>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin:24px 0 10px">THE RECORD</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ entries }}" as="e" hint-placeholder-count="3">
+              <div style="background:#17130C;border:1px solid rgba(245,241,232,0.07);border-radius:16px;padding:14px 16px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+                  <span style="font-family:'Space Mono',monospace;font-size:10px;color:#C3862B">{{ e.dateF }}</span>
+                  <span style="font-size:11px;color:#6E675A">{{ e.tagsS }}</span>
+                </div>
+                <div style="font-size:12.5px;line-height:1.55;color:#B9B2A4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ e.text }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ tabActions }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Reinforcement" style="padding:24px 22px 28px">
+        <div style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:3px;color:#C3862B;margin-bottom:10px">03 · REINFORCEMENT</div>
+        <sc-if value="{{ lockActions }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#17130C;border:1px solid rgba(245,241,232,0.08);border-radius:18px;padding:26px 22px;text-align:center;margin-top:8px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6E675A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <h3 style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;margin:12px 0 8px">Seven days first.</h3>
+            <p style="font-size:13px;line-height:1.65;color:#B9B2A4;margin:0 0 18px">Reinforcement opens when the record shows seven consecutive days of journaling. You do not talk your way through this gate. You write your way through it.</p>
+            <div style="height:5px;border-radius:3px;background:#2A241A;overflow:hidden"><div style="height:100%;background:#C3862B;width:{{ jGatePct }}"></div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:#8F887C;margin-top:8px">{{ jGateLabel }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ openActions }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:26px;margin:0 0 4px">{{ todayF }}</h2>
+          <p style="font-size:13px;color:#B9B2A4;margin:0 0 18px">{{ habitSummary }}</p>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+            <sc-for list="{{ habitRows }}" as="h" hint-placeholder-count="4">
+              <button onClick="{{ h.fn }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:12px 16px;background:#17130C;border:1px solid {{ h.bd }};border-radius:16px;cursor:pointer;text-align:left" style-hover="background:#1C180D">
+                <span style="flex:none;width:28px;height:28px;border-radius:999px;border:2px solid {{ h.cbd }};background:{{ h.cbg }};display:flex;align-items:center;justify-content:center">
+                  <sc-if value="{{ h.on }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0F0E0C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></sc-if>
+                </span>
+                <span style="font-family:Poppins,sans-serif;font-size:13.5px;line-height:1.4;color:{{ h.fg }}">{{ h.name }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:8px;margin-bottom:16px">
+            <input value="{{ newHabit }}" onChange="{{ onNewHabit }}" placeholder="Write your own aligned action" style="flex:1;height:46px;padding:0 14px;background:#17130C;border:1px solid rgba(245,241,232,0.1);border-radius:999px;color:#F5F1E8;font-family:Poppins,sans-serif;font-size:12.5px">
+            <button onClick="{{ addHabit }}" style="height:46px;padding:0 18px;border-radius:999px;border:1px solid rgba(195,134,43,0.5);background:none;color:#C3862B;font-family:Poppins,sans-serif;font-size:12.5px;cursor:pointer" style-hover="background:rgba(195,134,43,0.12)">Add</button>
+          </div>
+          <sc-if value="{{ hasSuggs }}" hint-placeholder-val="{{ false }}">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:8px">FROM THE MASTERCLASS</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">
+              <sc-for list="{{ suggChips }}" as="s" hint-placeholder-count="2">
+                <button onClick="{{ s.fn }}" style="min-height:40px;padding:8px 14px;border-radius:999px;border:1px dashed rgba(195,134,43,0.45);background:none;color:#C3862B;font-family:Poppins,sans-serif;font-size:12px;cursor:pointer" style-hover="background:rgba(195,134,43,0.1)">+ {{ s.label }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="background:#17130C;border:1px solid rgba(245,241,232,0.07);border-radius:16px;padding:16px 18px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+              <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C">TOWARD SOLIDIFICATION</span>
+              <span style="font-family:'Space Mono',monospace;font-size:10px;color:#C3862B">{{ hGateLabel }}</span>
+            </div>
+            <div style="height:5px;border-radius:3px;background:#2A241A;overflow:hidden"><div style="height:100%;background:#C3862B;width:{{ hGatePct }}"></div></div>
+            <div style="font-size:11.5px;line-height:1.55;color:#6E675A;margin-top:8px">A day counts only when every action is checked. The gate does not negotiate.</div>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ tabData }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Solidification" style="padding:24px 22px 28px">
+        <div style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:3px;color:#C3862B;margin-bottom:10px">04 · SOLIDIFICATION</div>
+        <sc-if value="{{ lockData }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#17130C;border:1px solid rgba(245,241,232,0.08);border-radius:18px;padding:26px 22px;text-align:center;margin-top:8px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6E675A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <h3 style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;margin:12px 0 8px">Fourteen aligned days.</h3>
+            <p style="font-size:13px;line-height:1.65;color:#B9B2A4;margin:0 0 18px">The dashboard opens when your record shows fourteen consecutive days with every aligned action complete. Consistency is the only key that fits.</p>
+            <div style="height:5px;border-radius:3px;background:#2A241A;overflow:hidden"><div style="height:100%;background:#C3862B;width:{{ hGatePct }}"></div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:#8F887C;margin-top:8px">{{ hGateLabel }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ openData }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;justify-content:center;margin:6px 0 4px">
+            <div style="position:relative;width:170px;height:170px">
+              <svg width="170" height="170" viewBox="0 0 170 170" style="transform:rotate(-90deg)">
+                <circle cx="85" cy="85" r="62" fill="none" stroke="#2A241A" stroke-width="10"></circle>
+                <circle cx="85" cy="85" r="62" fill="none" stroke="#C3862B" stroke-width="10" stroke-linecap="round" stroke-dasharray="389.6" stroke-dashoffset="{{ ringOff }}"></circle>
+              </svg>
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:42px;line-height:1">{{ cCur }}</div>
+                <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:#8F887C;margin-top:4px">CONSISTENT DAYS</div>
+              </div>
+            </div>
+          </div>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:#8F887C;text-align:center;margin-bottom:20px">{{ cGateLabel }}</div>
+          <div style="background:#17130C;border:1px solid rgba(245,241,232,0.07);border-radius:16px;padding:16px 18px;margin-bottom:16px">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:12px">LAST FOURTEEN DAYS</div>
+            <div style="display:flex;align-items:flex-end;gap:5px;height:44px">
+              <sc-for list="{{ bars14 }}" as="b" hint-placeholder-count="14">
+                <div style="flex:1;border-radius:3px 3px 0 0;background:{{ b.bg }};height:{{ b.h }}"></div>
+              </sc-for>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px">
+              <span style="font-family:'Space Mono',monospace;font-size:9px;color:#6E675A">{{ bar14Start }}</span>
+              <span style="font-family:'Space Mono',monospace;font-size:9px;color:#6E675A">TODAY</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ milestones }}" as="m" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:12px;background:#17130C;border:1px solid rgba(245,241,232,0.07);border-radius:14px;padding:13px 16px">
+                <span style="flex:none;width:24px;height:24px;border-radius:999px;background:{{ m.bg }};border:1px solid {{ m.bd }};display:flex;align-items:center;justify-content:center">
+                  <sc-if value="{{ m.done }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0F0E0C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></sc-if>
+                </span>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:500;color:{{ m.fg }}">{{ m.label }}</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:9.5px;color:#6E675A;margin-top:2px">{{ m.detail }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ tabCircle }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Replication" style="padding:24px 22px 28px">
+        <div style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:3px;color:#C3862B;margin-bottom:10px">05 · REPLICATION</div>
+        <sc-if value="{{ lockCircle }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#17130C;border:1px solid rgba(245,241,232,0.08);border-radius:18px;padding:26px 22px;text-align:center;margin-top:8px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6E675A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <h3 style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;margin:12px 0 8px">Solidify first.</h3>
+            <p style="font-size:13px;line-height:1.65;color:#B9B2A4;margin:0 0 18px">You cannot replicate what has not solidified. Thirty consistent days, then this opens and you carry someone with you.</p>
+            <div style="height:5px;border-radius:3px;background:#2A241A;overflow:hidden"><div style="height:100%;background:#C3862B;width:{{ cGatePct }}"></div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:#8F887C;margin-top:8px">{{ cGateLabel }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ openCircle }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ repDone }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#C3862B;border-radius:18px;padding:18px 20px;margin-bottom:16px">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#0F0E0C;margin-bottom:4px">REPLICATION REGISTERED</div>
+              <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#0F0E0C;line-height:1.3">Your code has been built with. The cycle is complete, and it is not yours anymore.</div>
+            </div>
+          </sc-if>
+          <div style="background:#1C180D;border:1px solid rgba(195,134,43,0.35);border-radius:18px;padding:20px;margin-bottom:16px">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:8px">YOUR FORMATION CODE</div>
+            <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:26px;letter-spacing:3px;color:#C3862B;margin-bottom:14px">{{ inviteCode }}</div>
+            <div style="display:flex;align-items:center;gap:8px;background:#0F0E0C;border-radius:12px;padding:12px 14px;margin-bottom:12px">
+              <span style="flex:1;font-family:'Space Mono',monospace;font-size:11px;color:#B9B2A4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ inviteLink }}</span>
+              <button onClick="{{ copyInvite }}" style="flex:none;height:34px;padding:0 14px;border:none;border-radius:999px;background:#C3862B;color:#0F0E0C;font-family:Poppins,sans-serif;font-weight:600;font-size:12px;cursor:pointer" style-hover="background:#D2953A">{{ copyLabel }}</button>
+            </div>
+            <p style="font-size:12px;line-height:1.6;color:#8F887C;margin:0">Replication is not achieved when you send this. It is achieved when someone registers with it and starts building.</p>
+          </div>
+          <button onClick="{{ exportMetrics }}" style="width:100%;height:50px;border:1px solid rgba(195,134,43,0.5);border-radius:999px;background:none;color:#C3862B;font-family:Poppins,sans-serif;font-weight:500;font-size:14px;cursor:pointer;margin-bottom:22px" style-hover="background:rgba(195,134,43,0.1)">{{ exportLabel }}</button>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:10px">BUILDING WITH YOUR CODE</div>
+          <sc-if value="{{ noMentees }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#17130C;border:1px dashed rgba(245,241,232,0.15);border-radius:16px;padding:20px;text-align:center;font-size:12.5px;line-height:1.6;color:#8F887C">Your code is unclaimed. Choose one person who reminds you of who you were, and send it.</div>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ menteeRows }}" as="m" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;gap:14px;background:#17130C;border:1px solid rgba(245,241,232,0.07);border-radius:16px;padding:14px 16px">
+                <span style="flex:none;width:42px;height:42px;border-radius:999px;background:#1C180D;border:1px solid rgba(195,134,43,0.4);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:600;font-size:16px;color:#C3862B">{{ m.init }}</span>
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:500">{{ m.name }}</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:1px;color:#8F887C;margin-top:2px">IN {{ m.stage }}</div>
+                </div>
+                <div style="font-family:'Space Mono',monospace;font-size:9.5px;color:#6E675A">{{ m.joinedF }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
+    </div>
+
+    <div style="flex:none;height:66px;display:flex;border-top:1px solid rgba(245,241,232,0.07);background:#12100C">
+      <button onClick="{{ goPath }}" style="flex:1;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:{{ cPath }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M6 21V8l6-5 6 5v13"></path></svg>
+        <span style="font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:1.5px">PATH</span>
+      </button>
+      <button onClick="{{ goJournal }}" style="flex:1;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:{{ cJournal }};position:relative">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+        <span style="font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:1.5px">JOURNAL</span>
+        <sc-if value="{{ lockJournal }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:10px;right:16px;width:6px;height:6px;border-radius:99px;background:#6E675A"></span></sc-if>
+      </button>
+      <button onClick="{{ goActions }}" style="flex:1;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:{{ cActions }};position:relative">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+        <span style="font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:1.5px">ACTIONS</span>
+        <sc-if value="{{ lockActions }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:10px;right:16px;width:6px;height:6px;border-radius:99px;background:#6E675A"></span></sc-if>
+      </button>
+      <button onClick="{{ goData }}" style="flex:1;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:{{ cData }};position:relative">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 15l4-4 3 3 5-6"></path></svg>
+        <span style="font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:1.5px">DATA</span>
+        <sc-if value="{{ lockData }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:10px;right:16px;width:6px;height:6px;border-radius:99px;background:#6E675A"></span></sc-if>
+      </button>
+      <button onClick="{{ goCircle }}" style="flex:1;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:{{ cCircle }};position:relative">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span style="font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:1.5px">CIRCLE</span>
+        <sc-if value="{{ lockCircle }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:10px;right:16px;width:6px;height:6px;border-radius:99px;background:#6E675A"></span></sc-if>
+      </button>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ scrExposure }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Exposure" style="flex:1;display:flex;flex-direction:column;min-height:0">
+    <div style="height:64px;flex:none;display:flex;align-items:center;gap:8px;padding:0 16px;border-bottom:1px solid rgba(245,241,232,0.06)">
+      <button onClick="{{ backMain }}" aria-label="Back" style="width:44px;height:44px;border:none;background:none;color:#B9B2A4;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="color:#F5F1E8"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:#C3862B">01 · EXPOSURE</div>
+    </div>
+    <div class="hidebar" style="flex:1;overflow-y:auto;padding:22px 22px 30px">
+      <div style="background:#1C180D;border:1px solid rgba(245,241,232,0.08);border-radius:18px;overflow:hidden;margin-bottom:20px">
+        <button onClick="{{ toggleVideo }}" aria-label="Play" style="width:100%;aspect-ratio:16/9;border:none;background:radial-gradient(90% 120% at 50% 0%,#241E11 0%,#14110B 70%);cursor:pointer;display:flex;align-items:center;justify-content:center">
+          <span style="width:64px;height:64px;border-radius:999px;background:#C3862B;display:flex;align-items:center;justify-content:center" style-hover="background:#D2953A">
+            <sc-if value="{{ videoOff }}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0F0E0C" style="margin-left:3px"><path d="M8 5v14l11-7z"></path></svg></sc-if>
+            <sc-if value="{{ videoOn }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0F0E0C"><rect x="6" y="5" width="4" height="14"></rect><rect x="14" y="5" width="4" height="14"></rect></svg></sc-if>
+          </span>
+        </button>
+        <div style="padding:14px 18px 16px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+            <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:17px">The Installed Ceiling</div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8F887C">24:16</div>
+          </div>
+          <div style="height:3px;border-radius:2px;background:#2A241A;overflow:hidden"><div style="height:100%;background:#C3862B;width:{{ videoPct }}"></div></div>
+          <div style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:1px;color:#6E675A;margin-top:8px">MASTERCLASS · MODULE ONE OF ONE</div>
+        </div>
+      </div>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px;line-height:1.25;margin:0 0 8px">The paradigm audit.</h2>
+      <p style="font-size:13px;line-height:1.65;color:#B9B2A4;margin:0 0 18px">Write down the beliefs that currently run your decisions. Where they came from. What they cost you. The next stage opens only when this passes three hundred characters, because a paragraph is the minimum unit of honesty.</p>
+      <sc-if value="{{ expoEditable }}" hint-placeholder-val="{{ false }}">
+        <textarea value="{{ expoText }}" onChange="{{ onExpo }}" placeholder="I still wait for permission before I move on anything that matters. I was trained to believe that..." style="width:100%;min-height:190px;padding:16px;background:#17130C;border:1px solid rgba(245,241,232,0.1);border-radius:16px;color:#F5F1E8;font-family:Poppins,sans-serif;font-size:13.5px;line-height:1.65;resize:none"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;margin-bottom:14px">
+          <div style="flex:1;height:4px;border-radius:2px;background:#2A241A;overflow:hidden;margin-right:12px"><div style="height:100%;background:#C3862B;width:{{ expoPct }}"></div></div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;color:{{ expoCountC }}">{{ expoCount }}</div>
+        </div>
+        <button onClick="{{ submitExpo }}" style="width:100%;height:54px;border:none;border-radius:999px;background:#C3862B;color:#0F0E0C;font-family:Poppins,sans-serif;font-weight:600;font-size:15px;cursor:pointer;opacity:{{ expoBtnOp }}" style-hover="background:#D2953A">Register the audit</button>
+        <p style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:1px;color:#6E675A;text-align:center;margin-top:12px">THE GATE COUNTS CHARACTERS, NOT INTENTIONS</p>
+      </sc-if>
+      <sc-if value="{{ expoDone }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#1C180D;border:1px solid rgba(195,134,43,0.35);border-radius:18px;padding:18px 20px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C3862B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg><span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#C3862B">AUDIT REGISTERED · {{ expoAtF }}</span></div>
+          <div style="font-size:13px;line-height:1.65;color:#B9B2A4;font-style:italic">"{{ expoText }}"</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:16px;padding:14px 16px;background:#17130C;border-radius:14px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C3862B" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0"></path></svg>
+          <span style="font-size:12.5px;color:#B9B2A4">Internalization is open. The daily record starts now.</span>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ scrProfile }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Profile" style="flex:1;display:flex;flex-direction:column;min-height:0">
+    <div style="height:64px;flex:none;display:flex;align-items:center;gap:8px;padding:0 16px;border-bottom:1px solid rgba(245,241,232,0.06)">
+      <button onClick="{{ backMain }}" aria-label="Back" style="width:44px;height:44px;border:none;background:none;color:#B9B2A4;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="color:#F5F1E8"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:#C3862B">BASELINE RECORD</div>
+    </div>
+    <div class="hidebar" style="flex:1;overflow-y:auto;padding:24px 22px 30px">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:22px">
+        <div style="width:62px;height:62px;border-radius:999px;background:#1C180D;border:1px solid rgba(195,134,43,0.4);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:600;font-size:24px;color:#C3862B">{{ initials }}</div>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;line-height:1.2">{{ pName }}</div>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:#8F887C;margin-top:4px">{{ pMeta }}</div>
+        </div>
+      </div>
+      <div style="background:#1C180D;border:1px solid rgba(195,134,43,0.3);border-radius:16px;padding:16px 18px;margin-bottom:20px">
+        <div style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:2px;color:#8F887C;margin-bottom:6px">THE COMMITMENT</div>
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:17px;line-height:1.45;color:#C3862B">"{{ pCommit }}"</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px">
+        <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C">THE SYSTEM</div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#C3862B">YOUR DESIGN</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+        <sc-for list="{{ pairRows }}" as="r" hint-placeholder-count="3">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="background:#17130C;border:1px solid rgba(245,241,232,0.07);border-radius:12px;padding:11px 13px;font-size:12px;line-height:1.5;color:#B9B2A4">{{ r.l }}</div>
+            <div style="background:#1C180D;border:1px solid rgba(195,134,43,0.25);border-radius:12px;padding:11px 13px;font-size:12px;line-height:1.5;color:#F5F1E8">{{ r.r }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#8F887C;margin-bottom:8px">NAMED CONSTRAINTS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px">
+        <sc-for list="{{ pCons }}" as="c" hint-placeholder-count="3">
+          <span style="padding:8px 14px;border-radius:999px;border:1px solid rgba(245,241,232,0.14);color:#B9B2A4;font-size:12px">{{ c.label }}</span>
+        </sc-for>
+      </div>
+      <div style="background:#17130C;border:1px solid rgba(245,241,232,0.07);border-radius:16px;padding:16px 18px">
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12.5px;color:#8F887C">On record since</span><span style="font-family:'Space Mono',monospace;font-size:11px;color:#F5F1E8">{{ pJoined }}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12.5px;color:#8F887C">Current stage</span><span style="font-family:'Space Mono',monospace;font-size:11px;color:#C3862B">{{ curStageFull }}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12.5px;color:#8F887C">Days journaled</span><span style="font-family:'Space Mono',monospace;font-size:11px;color:#F5F1E8">{{ pJCount }}</span></div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ scrNotifs }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Reminders" style="flex:1;display:flex;flex-direction:column;min-height:0">
+    <div style="height:64px;flex:none;display:flex;align-items:center;gap:8px;padding:0 16px;border-bottom:1px solid rgba(245,241,232,0.06)">
+      <button onClick="{{ backMain }}" aria-label="Back" style="width:44px;height:44px;border:none;background:none;color:#B9B2A4;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="color:#F5F1E8"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:#C3862B">REMINDERS</div>
+    </div>
+    <div class="hidebar" style="flex:1;overflow-y:auto;padding:24px 22px 30px">
+      <p style="font-size:13px;line-height:1.65;color:#B9B2A4;margin:0 0 20px">The system will remind you. It will not do the work for you, and it will not mark anything complete on your behalf.</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ notifRows }}" as="n" hint-placeholder-count="3">
+          <button onClick="{{ n.fn }}" style="display:flex;align-items:center;gap:14px;width:100%;min-height:64px;padding:14px 16px;background:#17130C;border:1px solid rgba(245,241,232,0.07);border-radius:16px;cursor:pointer;text-align:left" style-hover="background:#1C180D">
+            <div style="flex:1">
+              <div style="font-size:13.5px;font-weight:500;color:#F5F1E8">{{ n.label }}</div>
+              <div style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:1px;color:#6E675A;margin-top:3px">{{ n.desc }}</div>
+            </div>
+            <span style="flex:none;width:46px;height:27px;border-radius:999px;background:{{ n.track }};position:relative;transition:background .2s">
+              <span style="position:absolute;top:2.5px;left:{{ n.knob }};width:22px;height:22px;border-radius:999px;background:#F5F1E8;transition:left .2s"></span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+</div>
+
+<div style="width:390px;max-width:100%">
+  <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#6E675A;margin-bottom:8px;text-align:center">DEMO RIG · PICK A MOMENT IN THE JOURNEY</div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+    <sc-for list="{{ personaChips }}" as="p" hint-placeholder-count="5">
+      <button onClick="{{ p.fn }}" style="min-height:40px;padding:8px 16px;border-radius:999px;border:1px solid {{ p.bd }};background:{{ p.bg }};color:{{ p.fg }};font-family:'Space Mono',monospace;font-size:11px;cursor:pointer">{{ p.label }}</button>
+    </sc-for>
+  </div>
+  <p style="font-size:11px;line-height:1.6;color:#8a8375;text-align:center;margin:12px 20px 0">Gates are enforced by computed data, exactly as specified: 300+ audit characters, 7 consecutive journal days, 14 aligned action days, 30 consistent days, then a claimed referral code.</p>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:480,&quot;height&quot;:960},&quot;auditMinChars&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:300,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:50,&quot;max&quot;:1000,&quot;section&quot;:&quot;Gating rules&quot;},&quot;journalGateDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:7,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:2,&quot;max&quot;:30,&quot;section&quot;:&quot;Gating rules&quot;},&quot;habitGateDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:14,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:3,&quot;max&quot;:60,&quot;section&quot;:&quot;Gating rules&quot;},&quot;consistencyGateDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:30,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:5,&quot;max&quot;:90,&quot;section&quot;:&quot;Gating rules&quot;}}">
+class Component extends DCLogic {
+  constructor(p){
+    super(p);
+    let s=null; try{s=JSON.parse(localStorage.getItem('pbcm_v2')||'null');}catch(e){}
+    this.state=(s&&s.persona)?s:this.mkPersona('first');
+  }
+  save(){try{localStorage.setItem('pbcm_v2',JSON.stringify(this.state));}catch(e){}}
+  set(p){this.setState(p,()=>this.save());}
+  iso(off){const d=new Date();d.setDate(d.getDate()-off);return d.toISOString().slice(0,10);}
+  shift(s,n){const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
+  fmt(s){return new Date(s+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});}
+  fmtS(s){return new Date(s+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
+  mkDraft(){return {name:'',role:'',city:'',org:null,years:null,sys:['','',''],des:['','',''],cons:[],commit:''};}
+  presetHabits(){return ['Speak first in one meeting','Write before touching the phone','One decision without seeking cover','Reach one person beyond my level'];}
+  presetTags(){return ['Compliance → Ownership','Permission → Initiative','Performance → Presence','Survival → Stewardship'];}
+  mkPersona(key){
+    const base={persona:key,screen:'welcome',tab:'path',auditStep:0,err:'',draft:this.mkDraft(),profile:null,
+      expoText:'',expoDone:false,expoAt:null,videoOn:false,
+      jText:'',jTags:[],jCustomIn:'',customTags:[],journal:[],jErr:'',
+      habits:[],newHabit:'',habitLog:{},
+      mentees:[],copied:false,exported:false,
+      notif:{journal:true,actions:true,review:false}};
+    if(key==='first')return base;
+    const prof={name:'Natasha Banda',role:'Senior Compliance Officer',city:'Lusaka, Zambia',org:'Corporate',years:'8 to 15 years',
+      sys:['The board calendar and its sign-off chain','Processes I protect better than my own convictions','Meetings where I edit myself before I speak'],
+      des:['Rooms I convene on my own authority','Systems that make young officers brave','A voice that does not wait to be selected'],
+      cons:['Approval structures','Family expectations','Title ceiling'],commit:'I will stop waiting to be selected.'};
+    const expo='I still wait for permission before I move on anything that matters. I was trained to protect the process, so I hold my ideas until someone senior says them first. I treat my title as the ceiling of my contribution and I call that professionalism. I confuse being compliant with being faithful. I have named my smallness humility for so long that it almost feels like character. It is not. It was installed, and it can be reformed.';
+    const TAGS=this.presetTags();
+    const range=(a,b)=>{const r=[];for(let i=a;i<=b;i++)r.push(i);return r;};
+    const mk=(days)=>days.map((off,i)=>({date:this.iso(off),tags:[TAGS[i%TAGS.length]],
+      text:i===0?'I said the true thing in the risk committee before checking who agreed with me. Small, but mine.':'I kept the appointment with myself and wrote the honest version first.'}));
+    const logAll=(a,b)=>{const o={};for(let i=a;i<=b;i++)o[this.iso(i)]=[0,1,2,3];return o;};
+    const s={...base,screen:'main',expoText:expo,expoDone:true};
+    if(key==='day5'){s.profile={...prof,joined:this.iso(5)};s.expoAt=this.iso(5);s.journal=mk(range(1,4));return s;}
+    s.habits=this.presetHabits();
+    if(key==='day21'){s.profile={...prof,joined:this.iso(21)};s.expoAt=this.iso(21);s.journal=mk(range(1,20));s.habitLog=logAll(1,9);return s;}
+    if(key==='day45'){s.profile={...prof,joined:this.iso(45)};s.expoAt=this.iso(45);s.journal=mk(range(1,44));s.habitLog=logAll(1,26);return s;}
+    s.profile={...prof,joined:this.iso(70)};s.expoAt=this.iso(70);
+    s.journal=mk(range(0,60));s.habitLog=logAll(0,40);
+    s.mentees=[{name:'Kunda Mulenga',stage:'02 INTERNALIZATION',joined:this.iso(12)},{name:'Thandiwe Phiri',stage:'01 EXPOSURE',joined:this.iso(4)}];
+    return s;
+  }
+  run(dates){
+    const set=new Set(dates);let best=0;
+    set.forEach(d=>{if(!set.has(this.shift(d,-1))){let len=1,cur=d;while(set.has(this.shift(cur,1))){cur=this.shift(cur,1);len++;}if(len>best)best=len;}});
+    let cur=0,day=this.iso(0);if(!set.has(day))day=this.iso(1);
+    while(set.has(day)){cur++;day=this.shift(day,-1);}
+    return {best,cur};
+  }
+  gates(){
+    const st=this.state;
+    const jd=st.journal.map(e=>e.date);
+    const hd=Object.keys(st.habitLog).filter(d=>st.habits.length>0&&(st.habitLog[d]||[]).length>=st.habits.length);
+    const jset=new Set(jd);const cd=hd.filter(d=>jset.has(d));
+    const j=this.run(jd),h=this.run(hd),c=this.run(cd);
+    const GA=this.props.auditMinChars??300,GJ=this.props.journalGateDays??7,GH=this.props.habitGateDays??14,GC=this.props.consistencyGateDays??30;
+    const s1=st.expoDone,s2=s1&&j.best>=GJ,s3=s2&&h.best>=GH,s4=s3&&c.best>=GC,s5=s4&&st.mentees.length>0;
+    return {j,h,c,GA,GJ,GH,GC,s1,s2,s3,s4,s5};
+  }
+  code(){
+    const n=(this.state.profile&&this.state.profile.name)||'guest';
+    let h=0;for(let i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))%1679616;
+    return 'BCM-'+h.toString(36).toUpperCase().padStart(4,'0');
+  }
+  renderVals(){
+    const st=this.state,g=this.gates(),today=this.iso(0);
+    const D=st.draft,GOLD='#C3862B',DIM='#8F887C';
+    const pct=(x,y)=>Math.min(100,Math.round(100*Math.min(x,y)/y))+'%';
+    const chip=(on)=>on?{bg:'rgba(195,134,43,0.18)',bd:'rgba(195,134,43,0.75)',fg:'#E8B563'}:{bg:'#17130C',bd:'rgba(245,241,232,0.12)',fg:'#B9B2A4'};
+    const setD=(patch)=>this.set({draft:{...this.state.draft,...patch},err:''});
+    const orgChips=['Corporate','Government','NGO','Founder','Faith or ministry'].map(label=>({label,fn:()=>setD({org:label}),...chip(D.org===label)}));
+    const yearChips=['0 to 3 years','4 to 7 years','8 to 15 years','15+ years'].map(label=>({label,fn:()=>setD({years:label}),...chip(D.years===label)}));
+    const rowsDef=[{k:'AUTHORITY',ph1:'Who you answer to today',ph2:'The conviction you carry anyway'},{k:'WORK',ph1:'What the system pays you to protect',ph2:'What you were designed to build'},{k:'VOICE',ph1:'Where you edit yourself',ph2:'Where you feel most alive'}];
+    const sysRows=rowsDef.map((r,i)=>({...r,l:D.sys[i],r:D.des[i],
+      onL:(e)=>{const sys=[...this.state.draft.sys];sys[i]=e.target.value;setD({sys});},
+      onR:(e)=>{const des=[...this.state.draft.des];des[i]=e.target.value;setD({des});}}));
+    const consChips=['Approval structures','Title ceiling','Financial obligations','Family expectations','Institutional politics','Limited mobility'].map(label=>{
+      const on=D.cons.includes(label);
+      return {label,fn:()=>setD({cons:on?D.cons.filter(x=>x!==label):[...D.cons,label]}),...chip(on)};});
+    const stageNames=['Exposure','Internalization','Reinforcement','Solidification','Replication'];
+    const doneArr=[g.s1,g.s2,g.s3,g.s4,g.s5];
+    const lockArr=[false,!g.s1,!g.s2,!g.s3,!g.s4];
+    const openFns=[()=>this.set({screen:'exposure'}),()=>this.set({screen:'main',tab:'journal'}),()=>this.set({screen:'main',tab:'actions'}),()=>this.set({screen:'main',tab:'data'}),()=>this.set({screen:'main',tab:'circle'})];
+    const descs=['See the paradigms you inherited. Name them in writing.','One honest entry a day until the new identity holds.','Daily actions that agree with who you are becoming.','The data proves the pattern. Consistency becomes character.','Formation is not finished until it is passed on.'];
+    const meters=[
+      g.s1?['Audit registered','100%']:[st.expoText.length+' of '+(g.GA+1)+' characters',pct(st.expoText.length,g.GA+1)],
+      g.s2?['Seven days held','100%']:[Math.min(g.j.best,g.GJ)+' of '+g.GJ+' consecutive days',pct(g.j.best,g.GJ)],
+      g.s3?['Fourteen days held','100%']:[Math.min(g.h.best,g.GH)+' of '+g.GH+' aligned days',pct(g.h.best,g.GH)],
+      g.s4?['Thirty days held','100%']:[Math.min(g.c.best,g.GC)+' of '+g.GC+' consistent days',pct(g.c.best,g.GC)],
+      g.s5?['Code claimed. Cycle complete.','100%']:['Waiting for your code to be used','0%']];
+    const stages=stageNames.map((name,i)=>({n:'0'+(i+1),name,desc:descs[i],done:doneArr[i],locked:lockArr[i],
+      active:!doneArr[i]&&!lockArr[i],open:openFns[i],m:meters[i][0],p:meters[i][1],
+      nameC:lockArr[i]?'#6E675A':'#F5F1E8',
+      border:(!doneArr[i]&&!lockArr[i])?'1px solid rgba(195,134,43,0.55)':'1px solid rgba(245,241,232,0.07)'}));
+    const curIdx=doneArr.findIndex(d=>!d);
+    const curStageName=curIdx<0?'Replication':stageNames[curIdx];
+    const curLines=['Watch the module, then put your paradigms in writing.','Keep the daily record. The streak is the proof.','Check the actions that agree with your design. Every one, every day.','Hold the pattern. The data is doing the solidifying.','Send your code. Formation ends in multiplication.','The cycle is complete. It is not yours anymore.'];
+    const curStageLine=curIdx<0?curLines[5]:curLines[curIdx];
+    const prof=st.profile||{name:'',role:'',city:'',cons:[],sys:[],des:[],commit:'',joined:today};
+    const firstName=(prof.name||'Friend').split(' ')[0];
+    const tagsAll=[...this.presetTags(),...st.customTags];
+    const tagChips=tagsAll.map(label=>{const on=st.jTags.includes(label);
+      return {label,fn:()=>this.set({jTags:on?st.jTags.filter(x=>x!==label):[...st.jTags,label],jErr:''}),...chip(on)};});
+    const todayEntry=st.journal.find(e=>e.date===today);
+    const entries=[...st.journal].sort((a,b)=>b.date<a.date?-1:1).slice(0,6).map(e=>({dateF:this.fmt(e.date).toUpperCase(),tagsS:e.tags.join(' · '),text:e.text}));
+    const dots7=[];
+    for(let i=6;i>=0;i--){const d=this.iso(i);const on=st.journal.some(e=>e.date===d);
+      dots7.push({on,l:['S','M','T','W','T','F','S'][new Date(d+'T12:00:00').getDay()],
+        bg:on?GOLD:'#17130C',bd:on?GOLD:'rgba(245,241,232,0.12)'});}
+    const todayChecked=st.habitLog[today]||[];
+    const habitRows=st.habits.map((name,i)=>{const on=todayChecked.includes(i);
+      return {name,on,fg:on?'#F5F1E8':'#B9B2A4',bd:on?'rgba(195,134,43,0.45)':'rgba(245,241,232,0.07)',
+        cbd:on?GOLD:'rgba(245,241,232,0.25)',cbg:on?GOLD:'transparent',
+        fn:()=>{const cur=new Set(this.state.habitLog[today]||[]);cur.has(i)?cur.delete(i):cur.add(i);
+          this.set({habitLog:{...this.state.habitLog,[today]:[...cur]}});}};});
+    const suggChips=this.presetHabits().filter(x=>!st.habits.includes(x)).map(label=>({label,fn:()=>this.set({habits:[...this.state.habits,label]})}));
+    const bars14=[];
+    const hdays=new Set(Object.keys(st.habitLog).filter(d=>st.habits.length>0&&(st.habitLog[d]||[]).length>=st.habits.length));
+    for(let i=13;i>=0;i--){const d=this.iso(i);
+      const score=(st.journal.some(e=>e.date===d)?1:0)+(hdays.has(d)?1:0);
+      bars14.push({h:(6+score*17)+'px',bg:score===2?GOLD:score===1?'#8A6528':'#2A241A'});}
+    const C=389.6,cVal=Math.min(g.c.cur,g.GC);
+    const milestones=[
+      {label:'Audit registered',detail:'EXPOSURE · '+g.GA+'+ CHARACTERS',done:g.s1},
+      {label:'Seven days internalized',detail:'JOURNAL · CONSECUTIVE',done:g.s2},
+      {label:'Fourteen days reinforced',detail:'ACTIONS · ALL CHECKED',done:g.s3},
+      {label:'Thirty days consistent',detail:'JOURNAL AND ACTIONS TOGETHER',done:g.s4}
+    ].map(m=>({...m,bg:m.done?GOLD:'transparent',bd:m.done?GOLD:'rgba(245,241,232,0.2)',fg:m.done?'#F5F1E8':'#8F887C'}));
+    const menteeRows=st.mentees.map(m=>({name:m.name,stage:m.stage,joinedF:this.fmtS(m.joined).toUpperCase(),
+      init:m.name.split(' ').map(x=>x[0]).join('').slice(0,2)}));
+    const personaChips=[['first','First session'],['day5','Day 5'],['day21','Day 21'],['day45','Day 45'],['rep','Replication']].map(([k,label])=>{
+      const on=st.persona===k;
+      return {label,fn:()=>{const ns=this.mkPersona(k);this.setState(ns,()=>this.save());},
+        bg:on?'#1C180D':'transparent',bd:on?'rgba(195,134,43,0.7)':'rgba(15,14,12,0.25)',fg:on?'#C3862B':'#5c564a'};});
+    const notifDefs=[['journal','Journal reminder','DAILY · 06:00'],['actions','Aligned actions check','DAILY · 19:30'],['review','Weekly design review','SUNDAYS · 17:00']];
+    const notifRows=notifDefs.map(([k,label,desc])=>{const on=st.notif[k];
+      return {label,desc,fn:()=>this.set({notif:{...st.notif,[k]:!on}}),track:on?GOLD:'#2A241A',knob:on?'21px':'3px'};});
+    const expoLen=st.expoText.length;
+    const navC=(t)=>st.screen==='main'&&st.tab===t?GOLD:'#6E675A';
+    const stepLabels=['STEP 01 / 03','STEP 02 / 03','STEP 03 / 03'];
+    return {
+      scrWelcome:st.screen==='welcome',scrAudit:st.screen==='audit',scrMain:st.screen==='main',
+      scrExposure:st.screen==='exposure',scrProfile:st.screen==='profile',scrNotifs:st.screen==='notifs',
+      tabPath:st.tab==='path',tabJournal:st.tab==='journal',tabActions:st.tab==='actions',tabData:st.tab==='data',tabCircle:st.tab==='circle',
+      begin:()=>this.set({screen:'audit',auditStep:0,err:''}),
+      auditBack:()=>st.auditStep>0?this.set({auditStep:st.auditStep-1,err:''}):this.set({screen:'welcome',err:''}),
+      auditNext:()=>{
+        const s=this.state.auditStep,d=this.state.draft;
+        if(s===0){if(!d.name.trim()||!d.role.trim()||!d.city.trim()||!d.org||!d.years){this.set({err:'Every field on this page is part of your baseline. Complete it before you move.'});return;}}
+        if(s===1){const f=[...d.sys,...d.des].filter(x=>x.trim()).length;if(f<4){this.set({err:'Fill at least four of the six fields. Honest beats polished, but blank is neither.'});return;}}
+        if(s===2){if(!d.cons.length||!d.commit.trim()){this.set({err:'Name at least one constraint and write the commitment in your own words.'});return;}
+          this.set({profile:{name:d.name,role:d.role,city:d.city,org:d.org,years:d.years,sys:d.sys,des:d.des,cons:d.cons,commit:d.commit,joined:today},screen:'main',tab:'path',err:''});return;}
+        this.set({auditStep:s+1,err:''});},
+      stepLabel:stepLabels[st.auditStep],nextLabel:st.auditStep===2?'Enter the work':'Continue',
+      stepBar1:st.auditStep>=0?GOLD:'#2A241A',stepBar2:st.auditStep>=1?GOLD:'#2A241A',stepBar3:st.auditStep>=2?GOLD:'#2A241A',
+      step0:st.auditStep===0,step1:st.auditStep===1,step2:st.auditStep===2,
+      hasErr:!!st.err,errMsg:st.err,
+      dName:D.name,dRole:D.role,dCity:D.city,dCommit:D.commit,
+      onName:(e)=>setD({name:e.target.value}),onRole:(e)=>setD({role:e.target.value}),
+      onCity:(e)=>setD({city:e.target.value}),onCommit:(e)=>setD({commit:e.target.value}),
+      orgChips,yearChips,sysRows,consChips,
+      firstName,curStageName,curStageLine,stages,
+      curStageFull:curIdx<0?'CYCLE COMPLETE':'0'+(curIdx+1)+' '+stageNames[curIdx].toUpperCase(),
+      openNotifs:()=>this.set({screen:'notifs'}),openProfile:()=>this.set({screen:'profile'}),
+      backMain:()=>this.set({screen:'main'}),
+      goPath:()=>this.set({screen:'main',tab:'path'}),goJournal:()=>this.set({screen:'main',tab:'journal'}),
+      goActions:()=>this.set({screen:'main',tab:'actions'}),goData:()=>this.set({screen:'main',tab:'data'}),
+      goCircle:()=>this.set({screen:'main',tab:'circle'}),
+      cPath:navC('path'),cJournal:navC('journal'),cActions:navC('actions'),cData:navC('data'),cCircle:navC('circle'),
+      lockJournal:!g.s1,lockActions:!g.s2,lockData:!g.s3,lockCircle:!g.s4,
+      openJournal:g.s1,openActions:g.s2,openData:g.s3,openCircle:g.s4,
+      videoOn:st.videoOn,videoOff:!st.videoOn,toggleVideo:()=>this.set({videoOn:!st.videoOn}),
+      videoPct:st.videoOn?'38%':(st.expoDone?'100%':'0%'),
+      expoText:st.expoText,onExpo:(e)=>this.set({expoText:e.target.value}),
+      expoEditable:!st.expoDone,expoDone:st.expoDone,
+      expoAtF:st.expoAt?this.fmt(st.expoAt).toUpperCase():'',
+      expoLen,expoCount:expoLen+' / '+(g.GA+1),expoCountC:expoLen>g.GA?GOLD:DIM,
+      expoPct:pct(expoLen,g.GA+1),expoBtnOp:expoLen>g.GA?'1':'0.35',
+      submitExpo:()=>{if(this.state.expoText.length>g.GA)this.set({expoDone:true,expoAt:today});},
+      jCur:g.j.cur,dots7,tagChips,
+      jText:st.jText,onJText:(e)=>this.set({jText:e.target.value,jErr:''}),
+      jCustomIn:st.jCustomIn,onCustomIn:(e)=>this.set({jCustomIn:e.target.value}),
+      addCustomTag:()=>{const v=this.state.jCustomIn.trim();if(!v)return;
+        this.set({customTags:[...st.customTags,v],jTags:[...st.jTags,v],jCustomIn:''});},
+      saveEntry:()=>{const s2=this.state;
+        if(!s2.jText.trim()){this.set({jErr:'Write the entry. One honest paragraph is enough.'});return;}
+        if(!s2.jTags.length){this.set({jErr:'Tag the identity shift this entry belongs to.'});return;}
+        this.set({journal:[...s2.journal,{date:today,tags:s2.jTags,text:s2.jText.trim()}],jText:'',jTags:[],jErr:''});},
+      hasJErr:!!st.jErr,jErr:st.jErr,
+      todayLogged:!!todayEntry,todayOpen:!todayEntry,
+      todayTags:todayEntry?todayEntry.tags.join(' · '):'',todayText:todayEntry?todayEntry.text:'',
+      entries,
+      todayF:this.fmt(today),
+      habitSummary:st.habits.length?(todayChecked.length+' of '+st.habits.length+' aligned actions checked today.'):'Define the actions that agree with your new identity.',
+      habitRows,suggChips,hasSuggs:suggChips.length>0,
+      newHabit:st.newHabit,onNewHabit:(e)=>this.set({newHabit:e.target.value}),
+      addHabit:()=>{const v=this.state.newHabit.trim();if(!v)return;this.set({habits:[...st.habits,v],newHabit:''});},
+      jGatePct:pct(g.j.best,g.GJ),jGateLabel:Math.min(g.j.best,g.GJ)+' OF '+g.GJ+' CONSECUTIVE DAYS',
+      hGatePct:pct(g.h.best,g.GH),hGateLabel:Math.min(g.h.best,g.GH)+' OF '+g.GH+' DAYS',
+      cGatePct:pct(g.c.best,g.GC),cGateLabel:Math.min(g.c.best,g.GC)+' OF '+g.GC+' CONSISTENT DAYS',
+      cCur:g.c.cur,ringOff:(C*(1-cVal/g.GC)).toFixed(1),
+      bars14,bar14Start:this.fmtS(this.iso(13)).toUpperCase(),milestones,
+      repDone:g.s5,noMentees:st.mentees.length===0,menteeRows,
+      inviteCode:this.code(),inviteLink:'become.app/join/'+this.code(),
+      copyLabel:st.copied?'Copied':'Copy',
+      copyInvite:()=>{const t='https://become.app/join/'+this.code();
+        try{navigator.clipboard.writeText(t);}catch(e){}
+        this.set({copied:true});setTimeout(()=>this.set({copied:false}),1600);},
+      exportLabel:st.exported?'Metrics exported':'Export journey metrics',
+      exportMetrics:()=>{const data={name:prof.name,code:this.code(),gates:{exposure:g.s1,internalization:g.s2,reinforcement:g.s3,solidification:g.s4,replication:g.s5},streaks:{journalBest:g.j.best,actionsBest:g.h.best,consistentBest:g.c.best},entries:st.journal.length,actions:st.habits};
+        const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+        a.download='become-journey.json';a.click();
+        this.set({exported:true});setTimeout(()=>this.set({exported:false}),2000);},
+      initials:(prof.name||'?').split(' ').map(x=>x[0]).join('').slice(0,2),
+      pName:prof.name,pMeta:(prof.role||'').toUpperCase()+' · '+(prof.city||'').toUpperCase(),
+      pCommit:prof.commit,pJoined:prof.joined?this.fmt(prof.joined).toUpperCase():'',
+      pJCount:String(st.journal.length),
+      pairRows:(prof.sys||[]).map((l,i)=>({l:l||'Not recorded',r:(prof.des||[])[i]||'Not recorded'})),
+      pCons:(prof.cons||[]).map(label=>({label})),
+      notifRows,personaChips
+    };
+  }
+}
+</script>
+</body>
+</html>

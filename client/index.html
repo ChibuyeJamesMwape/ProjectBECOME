@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>become.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        background: #f5f1e8;
+        font-family: Poppins, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      a {
+        color: #c3862b;
+      }
+      a:hover {
+        color: #a06c1f;
+      }
+      ::selection {
+        background: rgba(195, 134, 43, 0.35);
+      }
+      input::placeholder,
+      textarea::placeholder {
+        color: #6e675a;
+        opacity: 1;
+      }
+      :focus-visible {
+        outline: 2px solid #c3862b;
+        outline-offset: 2px;
+      }
+      .hidebar::-webkit-scrollbar {
+        display: none;
+      }
+      .hidebar {
+        scrollbar-width: none;
+      }
+      button {
+        font: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
